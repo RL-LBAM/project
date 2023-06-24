@@ -23,7 +23,7 @@ def get_args():
 	parser.add_argument('--mixture_number',default=1, type=int, help='number of mixture components')
 
 	# Add training arguments
-	parser.add_argument('--batch_size', default=8000, type=int, help='batch size for training')
+	parser.add_argument('--batch_size', default=4000, type=int, help='batch size for training')
 	parser.add_argument('--max_epoch', default=50, type=int, help='force stop training at specified epoch')
 	parser.add_argument('--clip_norm', default=4, type=float, help='clip threshold of gradients')
 	parser.add_argument('--lr', default=0.05, type=float, help='learning rate')
