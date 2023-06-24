@@ -244,7 +244,7 @@ class cate_mixture_model(nn.Module):
 
 	def forward(self, x):
 		mixture_weight = torch.softmax(self.mixture_weight,dim=0)
-		likelihood = torch.randn(len(mixture_weight),x.shape[0])
+		likelihood = torch.randn(len(mixture_weight),x.shape[0],device='cuda')
 		self.loss.label_smoothing = 1e-5 if self.training else 0
 
 		for i in range(len(mixture_weight)):

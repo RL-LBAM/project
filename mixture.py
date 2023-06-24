@@ -19,14 +19,14 @@ def get_args():
 
 	# Add model arguments
 	parser.add_argument('--visible_dimension', default=80, type=int, help='dimension of the visible states')	
-	parser.add_argument('--loss_function', default='ZIP', type=str, help='likelihood function to calculate loss')
+	parser.add_argument('--loss_function', default='C', type=str, help='likelihood function to calculate loss')
 	parser.add_argument('--mixture_number',default=1, type=int, help='number of mixture components')
 
 	# Add training arguments
-	parser.add_argument('--batch_size', default=100, type=int, help='batch size for training')
+	parser.add_argument('--batch_size', default=8000, type=int, help='batch size for training')
 	parser.add_argument('--max_epoch', default=50, type=int, help='force stop training at specified epoch')
 	parser.add_argument('--clip_norm', default=4, type=float, help='clip threshold of gradients')
-	parser.add_argument('--lr', default=0.005, type=float, help='learning rate')
+	parser.add_argument('--lr', default=0.05, type=float, help='learning rate')
 	parser.add_argument('--patience', default=10, type=int,
 						help='number of epochs without improvement on validation set before early stopping')
 
@@ -62,6 +62,7 @@ def main(args):
 
 		if args.loss_function == 'C':
 			model=cate_mixture_model(args,maxcounts)
+			model=nn.DataParallel(model)
 		else:
 			model = mixture_model(args)
 
@@ -77,7 +78,6 @@ def main(args):
 			stats['grad_norm'] = 0
 			stats['clip'] = 0
 			stats['lr'] = 0
-			stats['loss']=0
 
 
 			if bad_epochs == 5:
